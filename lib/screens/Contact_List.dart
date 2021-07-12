@@ -30,7 +30,7 @@ class Contacts extends State<ContactList> {
     this.fetchUser();
   }
   fetchUser() async {
-    Uri url = Uri.http('10.0.2.2:3000', '/students');
+    Uri url = Uri.http('contactsapptask.herokuapp.com', '/students');
     var res = await http.get(url);
     print ("test");
     if (res.statusCode == 200){
@@ -54,8 +54,8 @@ class Contacts extends State<ContactList> {
         title: Text('My Contacts'),
       ),
         floatingActionButton: buildNavigateButton(),
-      body : _buildcontactlist(context)
-    );
+        body: _buildcontactlist(context)
+      );
   }
 
 
@@ -73,6 +73,21 @@ class Contacts extends State<ContactList> {
                   return Card(
                     margin: EdgeInsets.all(10),
                     child: ListTile(
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(
+                              Icons.delete_outline,
+                              size: 15.0,
+                              color: Colors.brown[900],
+                            ),
+                            onPressed: () {
+                              http.delete(Uri.parse('https://contactsapptask.herokuapp.com/students/${_items[index]['_id']}'));
+                            },
+                          ),
+                        ],
+                      ),
                         leading: CircleAvatar(
                           backgroundColor: Colors.primaries[Random().nextInt(Colors.primaries.length)],
                           child: Text(_items[index]['first_name'].substring(0,1).toUpperCase()+_items[index]['last_name'].substring(0,1).toUpperCase()),
@@ -81,7 +96,7 @@ class Contacts extends State<ContactList> {
                         subtitle: Text(_items[index]["number1"]+','+_items[index]["number2"]+','+_items[index]["number3"])
                     ),
                   );
-                },
+                  },
               ),
             )
                 : Container()
@@ -93,9 +108,10 @@ class Contacts extends State<ContactList> {
   Widget buildNavigateButton()=>FloatingActionButton(
       child: Icon(Icons.add),
       onPressed: (){
-        _buildcontactlist(context);
-        Navigator.push(context,MaterialPageRoute(builder: (context) => AddContacts()),
-        );
+        Navigator.push(context,MaterialPageRoute(builder: (context) => AddContacts()));
       }
   );
 }
+
+
+

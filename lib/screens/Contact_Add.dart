@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:http/http.dart';
-
+import 'package:flutter_contactsapp/screens/Contact_List.dart';
 /*Future<http.Response> createAlbum(String first_name,last_name,number1,number2,number3) {
   return http.post(
 
@@ -83,7 +83,7 @@ class _AddContactsScreen extends State<AddContacts> {
     String number1 = _numbercontroller1.text;
     String number2 = _numbercontroller2.text;
     String number3 = _numbercontroller3.text;
-    final response = await post(Uri.http('10.0.2.2:3000', '/students'),
+    final response = await post(Uri.http('contactsapptask.herokuapp.com', '/students'),
         body:{
       'first_name': first_name,
       'last_name':last_name,
@@ -91,7 +91,11 @@ class _AddContactsScreen extends State<AddContacts> {
       'number2': number2,
       'number3': number3,
         });
-    Navigator.pop((context));
+    Navigator.push(context,MaterialPageRoute(builder: (context) => MyApp())).then((value) {
+      setState(() {});
+      }
+    );
+
   }
   @override
   void initState() {
@@ -201,6 +205,7 @@ class _AddContactsScreen extends State<AddContacts> {
               controller: _numbercontroller2,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
+                hintText: '(Optional)',
                 labelText: 'Enter Second Number',
                 prefixIcon: Icon(
                   Icons.phone,
@@ -215,6 +220,7 @@ class _AddContactsScreen extends State<AddContacts> {
               controller: _numbercontroller3,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
+                hintText: '(Optional)',
                 labelText: 'Enter Third Number',
                 prefixIcon: Icon(
                   Icons.phone,
@@ -247,7 +253,9 @@ class _AddContactsScreen extends State<AddContacts> {
     );
   }
 }
+void deleteuser(int index){
 
+}
 /*void addContact(){
 //Save them as Strings
     String first_name = _firstnameController.text;
