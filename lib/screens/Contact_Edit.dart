@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_contactsapp/screens/Contact_List.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -63,18 +64,18 @@ class _EditContacts extends State<EditContacts> {
         });
     Navigator.pop(context);
   }*/
-  showConfirmDeleteDialog(BuildContext context){
+ showConfirmDeleteDialog(BuildContext context){
     // set up the buttons
-    Widget CancelButton = FlatButton(
+    Widget CancelButton = TextButton(
       child: Text("Cancel"),
       onPressed:  () {
-        Navigator.of(context, rootNavigator: true).pop('dialog');
+        Navigator.of(context, rootNavigator: true).pop();
       },
     );
-    Widget ConfirmButton = FlatButton(
+    Widget ConfirmButton = TextButton(
       child: Text("Continue"),
       onPressed:  () {
-        Navigator.of(context, rootNavigator: true).pop('dialog');
+        Navigator.of(context, rootNavigator: true).pop();
         http.delete(Uri.parse('https://contactsapptask.herokuapp.com/students/' + widget.id));
         Navigator.push(context,MaterialPageRoute(builder: (context) => MyApp())).then((value) {
           setState(() {});
@@ -82,7 +83,7 @@ class _EditContacts extends State<EditContacts> {
       },
     );
     AlertDialog alert = AlertDialog(
-      title: Text("AlertDialog"),
+      title: Text("Delete a Contact Confirmation"),
       content: Text("Are you sure you would want to delete this contact?"),
       actions: [
         CancelButton,
@@ -134,6 +135,7 @@ class _EditContacts extends State<EditContacts> {
               ),
               radius: 50,
               backgroundColor: Colors.cyan[100],
+              backgroundImage: NetworkImage('https://www.clipartmax.com/png/middle/471-4710367_person-icons-gear-user-setting-icon.png')
             ),
             TextFormField(
               controller: _lastnameController,
@@ -161,7 +163,7 @@ class _EditContacts extends State<EditContacts> {
               controller: _firstnameController,
               textCapitalization: TextCapitalization.words,
               decoration: InputDecoration(
-                labelText: 'First Name',
+                labelText: 'Edit First Name',
                 prefixIcon: Icon(
                   Icons.account_circle,
                   size: 30,
@@ -171,12 +173,11 @@ class _EditContacts extends State<EditContacts> {
                 contentPadding: EdgeInsets.all(15),
               ),
             ),
-
             TextFormField(
               controller: _lastnameController,
               textCapitalization: TextCapitalization.words,
               decoration: InputDecoration(
-                labelText: 'Enter Last Name',
+                labelText: 'Edit Last Name',
                 prefixIcon: Icon(
                   Icons.account_circle,
                   size: 30,
@@ -190,7 +191,7 @@ class _EditContacts extends State<EditContacts> {
               controller: _numbercontroller1,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                labelText: 'Enter First Number',
+                labelText: 'Edit First Number',
                 prefixIcon: Icon(
                   Icons.phone,
                   size: 30,
@@ -205,7 +206,7 @@ class _EditContacts extends State<EditContacts> {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 hintText: '(Optional)',
-                labelText: 'Enter Second Number',
+                labelText: 'Edit Second Number',
                 prefixIcon: Icon(
                   Icons.phone,
                   size: 30,
@@ -220,7 +221,7 @@ class _EditContacts extends State<EditContacts> {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 hintText: '(Optional)',
-                labelText: 'Enter Third Number',
+                labelText: 'Edit Third Number',
                 prefixIcon: Icon(
                   Icons.phone,
                   size: 30,

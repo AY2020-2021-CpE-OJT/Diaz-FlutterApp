@@ -75,12 +75,7 @@ class AddContacts extends StatefulWidget {
 // Define a custom Form widget.
 class _AddContactsScreen extends State<AddContacts> {
   final _formKey = GlobalKey<FormState>(); // For Storing Form state
-  /*void _saveForm(){
-    final isValid = _formKey.currentState!.validate();
-    if (!isValid){
-      addContact();
-    }
-  }*/
+
   late TextEditingController _firstnameController, _lastnameController,
       _numbercontroller1,
       _numbercontroller2, _numbercontroller3;
@@ -134,7 +129,8 @@ class _AddContactsScreen extends State<AddContacts> {
         title: Text('Add a Contact'),
       ),
       body: SingleChildScrollView(
-        //key: _formKey,
+        child:Form(
+        key: _formKey,
         child: Column(
           children: [
             CircleAvatar(
@@ -143,6 +139,7 @@ class _AddContactsScreen extends State<AddContacts> {
               ),
               radius: 50,
               backgroundColor: Colors.cyan[100],
+              backgroundImage: NetworkImage('https://www.pinclipart.com/picdir/middle/55-555141_join-us-comments-add-person-icon-png-clipart.png'),
             ),
             TextFormField(
               controller: _lastnameController,
@@ -179,6 +176,12 @@ class _AddContactsScreen extends State<AddContacts> {
                 filled: true,
                 contentPadding: EdgeInsets.all(15),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter Your First Name';
+                }
+                return null;
+              },
             ),
             TextFormField(
               controller: _lastnameController,
@@ -193,6 +196,12 @@ class _AddContactsScreen extends State<AddContacts> {
                 filled: true,
                 contentPadding: EdgeInsets.all(15),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter Your Last Name';
+                }
+                return null;
+              },
             ),
             TextFormField(
               controller: _numbercontroller1,
@@ -207,13 +216,18 @@ class _AddContactsScreen extends State<AddContacts> {
                 filled: true,
                 contentPadding: EdgeInsets.all(15),
               ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter Your Primary Number';
+                }
+                return null;
+              },
             ),
             TextFormField(
               controller: _numbercontroller2,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                hintText: '(Optional)',
-                labelText: 'Enter Second Number',
+                labelText: 'Enter Second Number (Optional)',
                 prefixIcon: Icon(
                   Icons.phone,
                   size: 30,
@@ -227,8 +241,7 @@ class _AddContactsScreen extends State<AddContacts> {
               controller: _numbercontroller3,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                hintText: '(Optional)',
-                labelText: 'Enter Third Number',
+                labelText: 'Enter Third Number (Optional)',
                 prefixIcon: Icon(
                   Icons.phone,
                   size: 30,
@@ -248,7 +261,9 @@ class _AddContactsScreen extends State<AddContacts> {
               ),),
                 onPressed: () {
                   setState(() {
-                    addContact();
+                    if(_formKey.currentState!.validate()){
+                      addContact();
+                    }
                   });
                 },
               ),
@@ -256,6 +271,7 @@ class _AddContactsScreen extends State<AddContacts> {
           ],
         ),
       ),
+      )
     );
   }
 }

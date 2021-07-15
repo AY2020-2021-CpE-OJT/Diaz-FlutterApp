@@ -108,7 +108,7 @@ class Contacts extends State<ContactList> {
 
   // Add Floating Button to move to the Add Contacts Screen
   Widget buildNavigateButton()=>FloatingActionButton(
-      child: Icon(Icons.add),
+      child: Icon(Icons.person_add_rounded),
       onPressed: (){
         Navigator.push(context,MaterialPageRoute(builder: (context) => AddContacts()));
       }
