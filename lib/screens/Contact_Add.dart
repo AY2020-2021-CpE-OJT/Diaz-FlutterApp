@@ -74,6 +74,13 @@ class AddContacts extends StatefulWidget {
 }
 // Define a custom Form widget.
 class _AddContactsScreen extends State<AddContacts> {
+  final _formKey = GlobalKey<FormState>(); // For Storing Form state
+  /*void _saveForm(){
+    final isValid = _formKey.currentState!.validate();
+    if (!isValid){
+      addContact();
+    }
+  }*/
   late TextEditingController _firstnameController, _lastnameController,
       _numbercontroller1,
       _numbercontroller2, _numbercontroller3;
@@ -83,7 +90,7 @@ class _AddContactsScreen extends State<AddContacts> {
     String number1 = _numbercontroller1.text;
     String number2 = _numbercontroller2.text;
     String number3 = _numbercontroller3.text;
-    final response = await post(Uri.http('contactsapptask.herokuapp.com', '/students'),
+     await post(Uri.http('contactsapptask.herokuapp.com', '/students'),
         body:{
       'first_name': first_name,
       'last_name':last_name,
@@ -95,7 +102,6 @@ class _AddContactsScreen extends State<AddContacts> {
       setState(() {});
       }
     );
-
   }
   @override
   void initState() {
@@ -128,6 +134,7 @@ class _AddContactsScreen extends State<AddContacts> {
         title: Text('Add a Contact'),
       ),
       body: SingleChildScrollView(
+        //key: _formKey,
         child: Column(
           children: [
             CircleAvatar(
@@ -238,7 +245,6 @@ class _AddContactsScreen extends State<AddContacts> {
                 fontSize: 20,
                 color: Colors.white,
                 fontWeight: FontWeight.w600,
-
               ),),
                 onPressed: () {
                   setState(() {
@@ -253,9 +259,8 @@ class _AddContactsScreen extends State<AddContacts> {
     );
   }
 }
-void deleteuser(int index){
 
-}
+
 /*void addContact(){
 //Save them as Strings
     String first_name = _firstnameController.text;

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_contactsapp/screens/Contact_Add.dart';
+import 'package:flutter_contactsapp/screens/Contact_Edit.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -57,13 +58,9 @@ class Contacts extends State<ContactList> {
         body: _buildcontactlist(context)
       );
   }
-
-
   Widget _buildcontactlist (BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(25),
-        child: Column(
+        body: Column(
           children: [
             _items.length > 0
                 ? Expanded(
@@ -78,13 +75,17 @@ class Contacts extends State<ContactList> {
                         children: <Widget>[
                           IconButton(
                             icon: Icon(
-                              Icons.delete_outline,
-                              size: 15.0,
+                              Icons.drag_indicator_outlined,
+                              size: 20.0,
                               color: Colors.brown[900],
                             ),
                             onPressed: () {
-                              http.delete(Uri.parse('https://contactsapptask.herokuapp.com/students/${_items[index]['_id']}'));
-                            },
+                              Navigator.push(context,MaterialPageRoute(builder: (context) =>
+                                  EditContacts(id:_items[index]['_id'],first_name:_items[index]['first_name'],last_name:_items[index]['last_name'],
+                                      number1:_items[index]['number1'],number2:_items[index]['number2'],number3:_items[index]['number3']
+                                  ))
+                               );
+                             }
                           ),
                         ],
                       ),
@@ -102,9 +103,10 @@ class Contacts extends State<ContactList> {
                 : Container()
           ],
         ),
-      ),
     );
   }
+
+  // Add Floating Button to move to the Add Contacts Screen
   Widget buildNavigateButton()=>FloatingActionButton(
       child: Icon(Icons.add),
       onPressed: (){
