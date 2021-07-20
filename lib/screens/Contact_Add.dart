@@ -69,6 +69,8 @@ class Album {
   }
 }*/
 class AddContacts extends StatefulWidget {
+  final String token;
+  AddContacts({Key? key, required this.token}) : super(key: key);
   @override
   _AddContactsScreen createState() => _AddContactsScreen();
 }
@@ -85,7 +87,7 @@ class _AddContactsScreen extends State<AddContacts> {
     String number1 = _numbercontroller1.text;
     String number2 = _numbercontroller2.text;
     String number3 = _numbercontroller3.text;
-     await post(Uri.http('contactsapptask.herokuapp.com', '/students'),
+     await post(Uri.http('contactsapptask.herokuapp.com', '/students',),headers: {"token":widget.token},
         body:{
       'first_name': first_name,
       'last_name':last_name,
@@ -93,7 +95,7 @@ class _AddContactsScreen extends State<AddContacts> {
       'number2': number2,
       'number3': number3,
         });
-    Navigator.push(context,MaterialPageRoute(builder: (context) => MyApp())).then((value) {
+    Navigator.push(context,MaterialPageRoute(builder: (context) => ContactList(token: widget.token,))).then((value) {
       setState(() {});
       }
     );

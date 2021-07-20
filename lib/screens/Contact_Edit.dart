@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_contactsapp/screens/Contact_List.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_contactsapp/screens/Contact_Login.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'dart:convert';
@@ -12,8 +13,10 @@ class EditContacts extends StatefulWidget {
   final String number1;
   final String number2;
   final String number3;
+  final String token;
   EditContacts({Key? key, required this.id,required this.first_name,required this.last_name,
-    required this.number1, required this.number2,required this.number3,}) : super(key: key);
+    required this.number1, required this.number2,required this.number3,required this.token,}) : super(key: key);
+
   @override
   _EditContacts createState() => _EditContacts();
 }
@@ -42,6 +45,7 @@ class _EditContacts extends State<EditContacts> {
     String number2 = _numbercontroller2.text;
     String number3 = _numbercontroller3.text;
     await put(Uri.http('contactsapptask.herokuapp.com', '/students/' + widget.id),
+        headers: {"token": widget.token},
         body:{
           'first_name': first_name,
           'last_name':last_name,
@@ -49,7 +53,7 @@ class _EditContacts extends State<EditContacts> {
           'number2': number2,
           'number3': number3,
         });
-    Navigator.push(context,MaterialPageRoute(builder: (context) => MyApp())).then((value) {
+    Navigator.push(context,MaterialPageRoute(builder: (context) => ContactList(token: '',))).then((value) {
       setState(() {});
        }
     );
@@ -76,10 +80,12 @@ class _EditContacts extends State<EditContacts> {
       child: Text("Continue"),
       onPressed:  () {
         Navigator.of(context, rootNavigator: true).pop();
-        http.delete(Uri.parse('https://contactsapptask.herokuapp.com/students/' + widget.id));
-        Navigator.push(context,MaterialPageRoute(builder: (context) => MyApp())).then((value) {
+        http.delete(Uri.parse('https://contactsapptask.herokuapp.com/students/' + widget.id),
+            headers:{"token":widget.token});
+        Navigator.push(context,MaterialPageRoute(builder: (context) => ContactList(token: '',))).then((value) {
           setState(() {});
         });
+        Contacts();
       },
     );
     AlertDialog alert = AlertDialog(
@@ -129,13 +135,16 @@ class _EditContacts extends State<EditContacts> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            CircleAvatar(
-              child: Align(
-                alignment: Alignment.topCenter,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CircleAvatar(
+                child: Icon(
+                    Icons.person_outline_rounded,
+                    size: 90,
+                ),
+                radius: 50,
+                backgroundColor: Colors.cyan[100],
               ),
-              radius: 50,
-              backgroundColor: Colors.cyan[100],
-              backgroundImage: NetworkImage('https://www.clipartmax.com/png/middle/471-4710367_person-icons-gear-user-setting-icon.png')
             ),
             TextFormField(
               controller: _lastnameController,
