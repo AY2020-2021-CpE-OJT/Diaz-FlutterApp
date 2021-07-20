@@ -53,7 +53,7 @@ class _EditContacts extends State<EditContacts> {
           'number2': number2,
           'number3': number3,
         });
-    Navigator.push(context,MaterialPageRoute(builder: (context) => ContactList(token: '',))).then((value) {
+    Navigator.push(context,MaterialPageRoute(builder: (context) => ContactList(token: widget.token,))).then((value) {
       setState(() {});
        }
     );
@@ -82,7 +82,7 @@ class _EditContacts extends State<EditContacts> {
         Navigator.of(context, rootNavigator: true).pop();
         http.delete(Uri.parse('https://contactsapptask.herokuapp.com/students/' + widget.id),
             headers:{"token":widget.token});
-        Navigator.push(context,MaterialPageRoute(builder: (context) => ContactList(token: '',))).then((value) {
+        Navigator.push(context,MaterialPageRoute(builder: (context) => ContactList(token: widget.token,))).then((value) {
           setState(() {});
         });
         Contacts();
