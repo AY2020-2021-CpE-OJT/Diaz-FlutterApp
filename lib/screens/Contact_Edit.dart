@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_contactsapp/screens/Contact_List.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class EditContacts extends StatefulWidget {
 }
 
 class _EditContacts extends State<EditContacts> {
+
   late TextEditingController _firstnameController, _lastnameController,
       _numbercontroller1,
       _numbercontroller2, _numbercontroller3;
@@ -53,9 +55,19 @@ class _EditContacts extends State<EditContacts> {
           'number2': number2,
           'number3': number3,
         });
-    Navigator.push(context,MaterialPageRoute(builder: (context) => ContactList(token: widget.token,))).then((value) {
-      setState(() {});
-       }
+    Navigator.pop(context);
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.deepOrange,
+          content: Container(
+            height: 15,
+            child: Row(
+              children: [
+                Text('Contact ' + first_name + ' Modified'),
+              ],
+            ),
+          ),
+        )
     );
   }
     /*final response = await patch(Uri.http('contactsapptask.herokuapp.com/students/','/$widget.id'),
@@ -68,7 +80,7 @@ class _EditContacts extends State<EditContacts> {
         });
     Navigator.pop(context);
   }*/
- showConfirmDeleteDialog(BuildContext context){
+ showConfirmDeleteDialog(BuildContext context)  {
     // set up the buttons
     Widget CancelButton = TextButton(
       child: Text("Cancel"),
@@ -82,10 +94,26 @@ class _EditContacts extends State<EditContacts> {
         Navigator.of(context, rootNavigator: true).pop();
         http.delete(Uri.parse('https://contactsapptask.herokuapp.com/students/' + widget.id),
             headers:{"token":widget.token});
-        Navigator.push(context,MaterialPageRoute(builder: (context) => ContactList(token: widget.token,))).then((value) {
+        Timer(Duration(seconds: 2), () {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: Colors.deepOrange,
+                content: Container(
+                  height: 15,
+                  child: Row(
+                    children: [
+                      Text('Contact ' + widget.first_name + ' Deleted'),
+                    ],
+                  ),
+                ),
+              )
+          );
+            }
+        );
+        /*Navigator.push(context,MaterialPageRoute(builder: (context) => ContactList(token: widget.token,))).then((value) {
           setState(() {});
-        });
-        Contacts();
+        });*/
       },
     );
     AlertDialog alert = AlertDialog(
@@ -108,7 +136,7 @@ class _EditContacts extends State<EditContacts> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Edit A Contact'),
+          title: Text('Edit a Contact'),
           actions: <Widget>[
             IconButton(
               icon: Icon(
@@ -155,6 +183,7 @@ class _EditContacts extends State<EditContacts> {
                 border: InputBorder.none,
               ),
             ),
+            SizedBox(height: 5),
             TextFormField(
               controller: _firstnameController,
               enabled: false,

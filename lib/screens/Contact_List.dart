@@ -22,7 +22,6 @@ class Contacts extends State<ContactList> {
     super.initState();
     this.fetchUser();
 
-    //this.fetchUser2();
   }
   fetchUser() async {
     Uri url = Uri.http('contactsapptask.herokuapp.com', '/students');
@@ -84,7 +83,9 @@ class Contacts extends State<ContactList> {
                                   EditContacts(id:_items[index]['_id'],first_name:_items[index]['first_name'],last_name:_items[index]['last_name'],
                                       number1:_items[index]['number1'],number2:_items[index]['number2'],number3:_items[index]['number3'],token:widget.token,
                                   ))
-                               );
+                               ).then((value) => setState(() {
+                                 fetchUser();
+                               }));
                              }
                           ),
                         ],
@@ -110,7 +111,9 @@ class Contacts extends State<ContactList> {
   Widget buildNavigateButton()=>FloatingActionButton(
       child: Icon(Icons.person_add_rounded),
       onPressed: (){
-        Navigator.push(context,MaterialPageRoute(builder: (context) => AddContacts(token: widget.token,)));
+        Navigator.push(context,MaterialPageRoute(builder: (context) => AddContacts(token: widget.token,))).then((value) => setState(() {
+          fetchUser();
+        }));
       }
   );
 }

@@ -77,7 +77,6 @@ class AddContacts extends StatefulWidget {
 // Define a custom Form widget.
 class _AddContactsScreen extends State<AddContacts> {
   final _formKey = GlobalKey<FormState>(); // For Storing Form state
-
   late TextEditingController _firstnameController, _lastnameController,
       _numbercontroller1,
       _numbercontroller2, _numbercontroller3;
@@ -95,9 +94,19 @@ class _AddContactsScreen extends State<AddContacts> {
       'number2': number2,
       'number3': number3,
         });
-    Navigator.push(context,MaterialPageRoute(builder: (context) => ContactList(token: widget.token,))).then((value) {
-      setState(() {});
-      }
+    Navigator.pop(context);
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.deepOrange,
+          content: Container(
+            height: 15,
+            child: Row(
+              children: [
+                Text('Contact Added '),
+              ],
+            ),
+          ),
+        )
     );
   }
   @override
@@ -135,13 +144,16 @@ class _AddContactsScreen extends State<AddContacts> {
         key: _formKey,
         child: Column(
           children: [
-            CircleAvatar(
-              child: Align(
-                alignment: Alignment.topCenter,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CircleAvatar(
+                child: Icon(
+                  Icons.person_add_rounded,
+                  size: 80,
+                ),
+                radius: 50,
+                backgroundColor: Colors.cyan[100],
               ),
-              radius: 50,
-              backgroundColor: Colors.cyan[100],
-              backgroundImage: NetworkImage('https://www.pinclipart.com/picdir/middle/55-555141_join-us-comments-add-person-icon-png-clipart.png'),
             ),
             TextFormField(
               controller: _lastnameController,
@@ -152,6 +164,7 @@ class _AddContactsScreen extends State<AddContacts> {
                 border: InputBorder.none,
               ),
             ),
+            SizedBox(height: 5),
             TextFormField(
               controller: _firstnameController,
               enabled: false,
@@ -161,6 +174,7 @@ class _AddContactsScreen extends State<AddContacts> {
                 border: InputBorder.none,
               ),
             ),
+
             Divider(
                 thickness: 5,
                 color: Colors.blueGrey
